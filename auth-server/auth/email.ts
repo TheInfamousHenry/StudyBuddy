@@ -1,19 +1,19 @@
 import { Router } from "express";
 import { Auth } from "@auth/core";
-import Email from "@auth/core/providers/email";
+import EmailProvider from '@auth/core/providers/email';
 
 const router = Router();
 
-router.use("/auth/email", (req, res) => {
-    return Auth(req, res, {
+router.use('/auth/email', async (req: Request, res: Response) =>
+    Auth(req, res, {
         providers: [
-            Email({
-                server: process.env.EMAIL_SERVER!,   // e.g. smtp://user:pass@smtp.server.com:587
-                from: process.env.EMAIL_FROM!,       // e.g. "StudyBuddy <noreply@yourapp.com>"
-            })
+            EmailProvider({
+                server: process.env.EMAIL_SERVER,
+                from: process.env.EMAIL_FROM,
+            }),
         ],
-        secret: process.env.AUTH_SECRET!,
-    });
-});
+        secret: process.env.AUTH_SECRET,
+    })
+);
 
 export default router;
